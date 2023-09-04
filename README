@@ -1,0 +1,17 @@
+This README file contains information on the contents of the meta-imx8mp-isp-ar0144 layer.
+
+This layer enables AR0144 camera sensor ISP support on IMX8MP evk
+
+1. Compile i.MX8MP EVK board  with AR0144 enabled
+$ source sources/meta-imx8mp-isp-ar0144/setup/setup-env-imx8mp-ar0144 -b build-imx8mp-ar0144
+$ bitbake imx-image-full
+
+2. Test
+a. plug ar0144 sensor to the evk board MIPI CSI1
+b. Flash a Micro SD card with the image in build-imx8mp-ar0144/tmp/deploy
+c. set uboot:
+> setenv fdtfile imx8mp-evk-ar0144.dtb
+> saveenv
+> boot
+d. Test with gstreamer
+$ gst-launch-1.0 -v v4l2src device=/dev/video4 ! "video/x-raw,format=YUY2,width=1280,height=800" ! queue ! waylandsink
